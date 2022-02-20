@@ -1,0 +1,61 @@
+<%- include('../partials/headerAuth'); %>
+<main class="register">
+  <div class="container">
+    <div class="register__form">
+      <form action="/users/register" method="post">
+        <h2>Create an account</h2>
+        <p>Note: Registrations only for authorized members will be approved</p>
+        <div class="row g-2 mb-4">
+          <div class=" col-sm-12 col-md-6">
+          <label for="name" class="form-label">Name</label>
+          <input type="text" name="name" value="<%= body.name ? body.name : '' %>" class="form-control <%= errors.name ? 'is-invalid' : '' %>" id="name" placeholder="surname firstname" value="">
+          <div class="invalid-feedback">
+            <%= errors.name ? errors.name : '' %>
+          </div>
+        </div> 
+        <div class=" col-sm-12 col-md-6">
+          <label for="email" class="form-label">Email address</label>
+          <input type="text" name="email" value="<%= body.email ? body.email : '' %>" class="form-control <%= errors.email ? 'is-invalid' : '' %>" id="email" placeholder="name@example.com">
+          <div class="invalid-feedback">
+            <%= errors.email ? errors.email : '' %>
+          </div>
+        </div> 
+        </div>
+
+        <div class="row g-2 mb-4">
+          <select class="form-select col-12" name="role" aria-label=".form-select-lg example" value="<%= body.role ? body.role : '' %>">
+            <option <%= body.role !== '' ? 'selected' : '' %>   disabled>Open this select menu</option>
+            <option <%= body.role === 'Accountant' ? 'selected' : '' %> value="Accountant">Accountant</option>
+            <option  <%= body.role === 'Teacher' ? 'selected' : '' %> value="Teacher">Teacher</option>
+            <option <%= body.role === 'Principal' ? 'selected' : '' %>  value="Principal">Principal</option>
+          </select>
+          <div class="invalid-feedback">
+            <%= errors.role ? errors.role : '' %>
+          </div>
+        </div>
+        <div class="row g-2 mb-4">
+          <div class=" col-sm-12 col-md-6">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" value="<%= body.password ? body.password : '' %>" name="password" class="form-control <%= errors.password ? 'is-invalid' : '' %>" id="password" placeholder="**********">
+          <div class="invalid-feedback">
+            <%= errors.password ? errors.password : '' %>
+          </div>
+        </div> 
+        <div class=" col-sm-12 col-md-6">
+          <label for="passwordConfirm" class="form-label">Confirm Password</label>
+          <input type="password" value="<%= body.passwordConfirm ? body.passwordConfirm : '' %>"  name="passwordConfirm" class="form-control <%= errors.passwordConfirm ? 'is-invalid' : '' %>" id="passwordConfirm" placeholder="***********">
+          <div class="invalid-feedback">
+            <%= errors.passwordConfirm ? errors.passwordConfirm : '' %>
+          </div>
+        </div> 
+        </div>
+           <div class="row g-2 mb4">
+            <button class="btn btn-primary" type="submit">Create</button>
+         </div>      
+      </form>
+    </div>
+  </div>
+</main>
+<script src="/scripts/bootstrap.bundle.js"></script>
+</body>
+</html>

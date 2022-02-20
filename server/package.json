@@ -1,0 +1,43 @@
+{
+  "name": "school-management-system",
+  "version": "1.0.0",
+  "description": "school management system",
+  "main": "server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "watch": "nodemon src/server.js",
+    "compile": "sass --watch scss:public/style"
+  },
+  "keywords": [
+    "school",
+    "management"
+  ],
+  "author": "Folorunso Tolulope",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.2",
+    "express-async-errors": "^3.1.1",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^6.2.0",
+    "express-session": "^1.17.2",
+    "express-validator": "^6.14.0",
+    "helmet": "^5.0.2",
+    "http-status-codes": "^2.2.0",
+    "joi": "^17.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.1",
+    "mongoose": "^6.2.1",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.4"
+  },
+  "devDependencies": {
+    "jest": "^27.5.1"
+  },
+  "engines": {
+    "node": "16.x"
+  }
+}
