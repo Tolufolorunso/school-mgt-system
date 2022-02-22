@@ -12,7 +12,7 @@ const Student = () => {
 
   return (
     <>
-      <Breadcrums />
+      <Breadcrums where='students' />
       <Container>
         <Typography component='h1'>Hello</Typography>
       </Container>

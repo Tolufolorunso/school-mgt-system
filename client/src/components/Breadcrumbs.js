@@ -9,8 +9,6 @@ import { useNavigate } from 'react-router-dom'
 
 function handleClick(event) {
   event.preventDefault()
-
-  console.info(event.target.href)
 }
 
 function BasicBreadcrumbs({ where }) {
@@ -36,6 +34,21 @@ function BasicBreadcrumbs({ where }) {
           onClick={() => navigate('/students')}
         >
           Student
+        </Link>
+      </div>
+    )
+  }
+  if (where === 'students') {
+    whatPage = (
+      <div>
+        <Link
+          underline='hover'
+          color='inherit'
+          href='/'
+          onClick={() => navigate('/')}
+        >
+          <HomeIcon sx={{ mr: 0.5 }} fontSize='inherit' />
+          Home
         </Link>
       </div>
     )
