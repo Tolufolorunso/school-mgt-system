@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const studentIdSchema = new mongoose.Schema({
-  ClassRollNo: {
+  classRollNo: {
     type: String,
     required: true,
     validate: {
@@ -11,7 +11,7 @@ const studentIdSchema = new mongoose.Schema({
       message: 'Roll must be greater than 3',
     },
   },
-  RegistrationNo: {
+  registrationNo: {
     type: String,
   },
 })
@@ -57,11 +57,15 @@ const StudentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  mothersName: {
+  fathersOccupation: {
     type: String,
     required: true,
   },
-  fathersOccupation: {
+  fathersLocation: {
+    type: String,
+    required: true,
+  },
+  mothersName: {
     type: String,
     required: true,
   },
@@ -69,13 +73,14 @@ const StudentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  email: String,
-  phoneNumber: {
+  mothersLocation: {
     type: String,
     required: true,
   },
+  email: String,
+  phoneNumber: String,
   address: {
-    Address_Line_1: {
+    address_Line_1: {
       type: String,
       required: true,
     },
@@ -96,37 +101,33 @@ const StudentSchema = new mongoose.Schema({
       required: true,
     },
   },
-  CourseName: {
+  courseName: {
+    type: String,
+    // required: true,
+  },
+  branchName: {
+    type: String,
+    // required: true,
+  },
+  class: {
     type: String,
     required: true,
+    enum: ['jss1', 'jss2', 'jss3', 'ss1', 'ss2', 'ss3'],
   },
-  BranchName: {
-    type: String,
-    required: true,
-  },
-  Class: {
-    type: String,
-    required: true,
-    enum: [
-      '1st Semester',
-      '2nd Semester',
-      '3rd Semester',
-      '4th Semester',
-      '5th Semester',
-      '6th Semester',
-      '7th Semester',
-      '8th Semester',
-    ],
-  },
-  Section: {
+  section: {
     type: String,
     required: true,
     enum: ['A', 'B', 'C'],
   },
-  Session: {
+  session: {
     type: String,
     required: true,
   },
+  term: {
+    type: String,
+    required: true,
+  },
+
   StudentId: studentIdSchema,
 })
 
