@@ -1,70 +1,69 @@
-const User = require("../../models/user.model");
-const CustomError = require("../../errors/index");
-const { createJWT } = require("../../utils/jwt");
+const User = require('../../models/user.model')
+const CustomError = require('../../errors/index')
+const { createJWT } = require('../../utils/jwt')
 
-const { StatusCodes } = require("http-status-codes");
-const moment = require("moment");
-const { checkForExpressValildatorErrors } = require("../../utils/express.validator")
+const { StatusCodes } = require('http-status-codes')
+const moment = require('moment')
+const {
+  checkForExpressValildatorErrors,
+} = require('../../utils/express.validator')
 
 async function register(req, res) {
-  
-   // Check for errors
-   checkForExpressValildatorErrors(req)
+  // Check for errors
+  checkForExpressValildatorErrors(req)
 
-  const { email } = req.body;
+  const { email } = req.body
 
-  const userExists = await User.findOne({ email });
+  const userExists = await User.findOne({ email })
 
   if (userExists) {
     return res.status(StatusCodes.BAD_REQUEST).json({
       status: false,
       errors: {
-        email: "Email is already exist",
+        email: 'Email is already exist',
       },
-      errorMessage: "Email is already exist",
-    });
+      errorMessage: 'Email is already exist',
+    })
   }
 
-  const isFirstAccount = (await User.countDocuments({})) === 0;
+  const isFirstAccount = (await User.countDocuments({})) === 0
 
   const newUser = {
-    name: req.body.name,
+    name: req.body.fullname,
     email: req.body.email,
     password: req.body.password,
-    role: isFirstAccount ? "Administrator" : req.body.role,
+    role: isFirstAccount ? 'Administrator' : req.body.role,
     isAdmin: false,
-    created: moment(Date.now()).format("LL"),
-  };
+    created: moment(Date.now()).format('LL'),
+  }
 
-  const user = await User.create(newUser);
+  const user = await User.create(newUser)
 
   return res.status(StatusCodes.CREATED).json({
     status: true,
     message: `${user.name}, Your account creation was successful`,
-  });
+  })
 }
 
 async function login(req, res) {
-  const { email, password } = req.body;
-  
+  const { email, password } = req.body
+
   // Check for errors
   checkForExpressValildatorErrors(req)
-  
-  const user = await User.findOne({ email }).select('+password');
 
+  const user = await User.findOne({ email }).select('+password')
 
   if (!user) {
     throw new CustomError.UnauthenticatedError('Invalid Credentials')
   }
 
-
-  if(!user.request) {
-    throw new CustomError.UnauthenticatedError('You have not been approved. Contact your administrator')
+  if (!user.request) {
+    throw new CustomError.UnauthenticatedError(
+      'You have not been approved. Contact your administrator'
+    )
   }
 
- 
-
-  const isPasswordCorrect = await user.comparePassword(password);
+  const isPasswordCorrect = await user.comparePassword(password)
 
   if (!isPasswordCorrect) {
     throw new CustomError.UnauthenticatedError('Invalid Credentials')
@@ -73,9 +72,9 @@ async function login(req, res) {
     userId: user._id,
     name: user.name,
     role: user.role,
-  };
+  }
 
-  const token = createJWT({ payload: userTokenObj });
+  const token = createJWT({ payload: userTokenObj })
 
   user.password = undefined
   user.privileges = undefined
@@ -84,10 +83,10 @@ async function login(req, res) {
     status: true,
     user,
     token,
-  });
+  })
 }
 
 module.exports = {
   register,
   login,
-};
+}

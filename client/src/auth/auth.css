@@ -1,0 +1,29 @@
+.auth {
+  background-image: linear-gradient(
+      hsl(var(--clr-primary), 0.4),
+      hsl(var(--clr-primary), 0.4)
+    ),
+    url(../assets/images/backgrounds/bg-2.jpeg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.auth__container {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
+}
+
+.auth_btn {
+  border-radius: 0px;
+  height: 45px;
+  width: 190px;
+}
+
+.css-1u3bzj6-MuiFormControl-root-MuiTextField-root {
+  margin-bottom: 30px !important;
+}
