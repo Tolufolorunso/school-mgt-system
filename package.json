@@ -1,19 +1,86 @@
 {
   "name": "school-management-system",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "school management system",
+  "main": "server.js",
   "scripts": {
-    "install-server": "npm install --prefix server",
+    "start": "node src/server.js",
+    "server": "nodemon src/server.js",
+    "test": "jest --watch",
+    "install-server": "npm install",
     "install-client": "npm install --prefix client",
     "install": "npm run install-server && npm run install-client",
-    "server": "npm run watch --prefix server",
     "client": "npm start --prefix client",
-    "watch": "npm run server & npm run client",
-    "deploy": "npm run build --prefix client && npm start --prefix server",
-    "test": "npm run test --prefix server && npm run test"
+    "watch": "npm run server && npm run client",
+    "deploy": "npm run build --prefix client && npm start",
+    "lint": "eslint .",
+    "compile": "sass --watch scss:public/style"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "keywords": [
+    "school",
+    "management"
+  ],
+  "author": "Folorunso Tolulope",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.2",
+    "express-async-errors": "^3.1.1",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^6.2.0",
+    "express-session": "^1.17.2",
+    "express-validator": "^6.14.0",
+    "helmet": "^5.0.2",
+    "http-status-codes": "^2.2.0",
+    "joi": "^17.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.1",
+    "mongoose": "^6.2.1",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.10.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "jest": "^27.5.1",
+    "prettier": "^2.5.1",
+    "supertest": "^6.2.2"
+  },
+  "engines": {
+    "node": "16.x"
+  },
+  "eslintConfig": {
+    "parserOptions": {
+      "ecmaVersion": 6
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:prettier/recommended"
+    ],
+    "plugins": [
+      "prettier"
+    ],
+    "env": {
+      "node": true,
+      "es6": true,
+      "jest": true
+    },
+    "rules": {
+      "prettier/prettier": "warn",
+      "semi": [
+        "",
+        "never"
+      ],
+      "eqeqeq": "warn"
+    }
+  },
+  "prettier": {
+    "singleQuote": true,
+    "printWidth": 90,
+    "semi": false
+  }
 }

@@ -1,9 +1,8 @@
 import { Navigate } from 'react-router-dom'
-import { useAppContext } from '../context/appContext'
+import { useAuthContext } from '../context/auth/authContext'
 
 const ProtectRoute = ({ children }) => {
-  const { user } = useAppContext()
-  console.log(user)
+  const { user } = useAuthContext()
   if (!user) {
     return <Navigate to='users/login' />
   }

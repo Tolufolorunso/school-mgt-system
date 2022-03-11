@@ -2,47 +2,49 @@ import React, { useState } from 'react'
 import Box from '@mui/material/Box'
 import { makeStyles } from '@mui/styles'
 import Container from '@mui/material/Container'
-import Button from '@mui/material/Button'
+import LoadingButton from '@mui/lab/LoadingButton'
+import { useNavigate } from 'react-router-dom'
 
-import { Breadcrumbs } from '../../../common'
+import { Breadcrumbs, Toast } from '../../../common'
 
 import StudentParentDetailForm from '../components/StudentParentDetailForm'
 import StudentParentContactDetailForm from '../components/StudentParentContactDetailForm'
 import StudentPersonalDetailForm from '../components/StudentPersonalDetailForm'
 import StudentSchoolDetailForm from '../components/StudentSchoolDetailForm'
+import { useStudentContext } from '../../../context/student/studentContext'
 
 const initialState = {
   firstname: 'oreofe',
   lastname: 'tolu',
   gender: 'male',
   category: 'jss',
-  dateOfBirth: '',
-  dateOfAdmission: '',
+  dateOfBirth: '03/18/2022',
+  dateOfAdmission: '03/18/2022',
   religion: 'christain',
   fathersName: 'tolu kola',
   fathersLocation: 'kola kehinde',
   fathersOccupation: 'developer',
-  mothersName: '',
-  mothersLocation: '',
-  mothersOccupation: '',
-  email: '',
-  phoneNumber: '',
-  address_Line_1: '',
-  city: '',
-  state: '',
-  postalCode: '',
-  country: '',
-  registrationNo: '',
-  classRollNo: '',
-  classAdmittedTo: '',
+  mothersName: 'skdjsdk',
+  mothersLocation: 'ado',
+  mothersOccupation: 'doc',
+  email: 't@yahoo.com',
+  phoneNumber: '985794595',
+  address_Line_1: 'djsdksd',
+  city: 'ado',
+  state: 'ekiti',
+  postalCode: '234',
+  country: 'Nigeria',
+  registrationNo: '344',
+  classRollNo: '323',
+  classAdmittedTo: 'jss2',
   session: '2020/2021',
   term: 'First term',
-  disabilities: '',
-  disabilitiesComment: '',
-  height: '',
-  weigth: '',
-  bloodGroup: '',
-  genotype: '',
+  disabilities: 'no',
+  disabilitiesComment: 'nil',
+  height: '443',
+  weigth: '434',
+  bloodGroup: 'a+',
+  genotype: 'aa',
 }
 
 const useStyles = makeStyles({
@@ -60,6 +62,9 @@ const useStyles = makeStyles({
 })
 
 const StudentAddNewStudent = () => {
+  const { addStudent, isLoading, showAlert, alert, alertType } =
+    useStudentContext()
+  let navigate = useNavigate()
   const classes = useStyles()
   const [values, setValues] = useState(initialState)
 
@@ -67,15 +72,19 @@ const StudentAddNewStudent = () => {
     setValues({ ...values, [e.target.name]: e.target.value })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log(values)
+    const res = await addStudent(values)
+    if (res) {
+      navigate('/students')
+    }
   }
 
   return (
     <>
       <Breadcrumbs where='Add' />
       <Container className={classes.root}>
+        <Toast showAlert={showAlert} alert={alert} alertType={alertType} />
         <Box component='form' onSubmit={handleSubmit}>
           <StudentPersonalDetailForm
             classes={classes}
@@ -98,15 +107,24 @@ const StudentAddNewStudent = () => {
             handleChange={handleChange}
             values={values}
           />
-          <Button
+          {/* <Button
             variant='contained'
             type='submit'
             sx={{ height: '60px', minWidth: '350px' }}
           >
             Register Student
-          </Button>
+          </Button> */}
+          <LoadingButton
+            loading={isLoading}
+            variant='contained'
+            type='submit'
+            sx={{ height: '60px', minWidth: '350px' }}
+          >
+            Register Student
+          </LoadingButton>
         </Box>
       </Container>
+      <Toast showAlert={showAlert} alert={alert} alertType={alertType} />
     </>
   )
 }

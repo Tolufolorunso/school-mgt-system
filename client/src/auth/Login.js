@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import AuthNav from './AuthNav'
-import { useAppContext } from '../context/appContext'
 
 import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box'
@@ -11,26 +10,33 @@ import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 
 import './auth.css'
+import { useNavigate } from 'react-router-dom'
+import { useAuthContext } from '../context/auth/authContext'
 
 const Login = () => {
   const [values, setValues] = useState({
-    email: '@yahoo.com',
+    email: 'tolu@yahoo.com',
     password: '12345',
   })
+  let navigate = useNavigate()
 
-  const [isError, setIsError] = useState(false)
+  const [errorsObj, setErrors] = useState({})
 
-  const { login } = useAppContext()
+  const { login, isLoading, errors, isLoggedIn } = useAuthContext()
 
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value })
   }
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault()
-    console.log('27 values', values)
-    login(values)
+    const success = await login(values)
+    if (success) navigate('/')
   }
+
+  useEffect(() => {
+    setErrors({ ...errors })
+  }, [errors])
 
   return (
     <>
@@ -54,26 +60,26 @@ const Login = () => {
                 Login to your dashboard
               </Typography>
               <TextField
-                error={isError}
+                error={errorsObj.email ? true : false}
                 id='outlined-error'
                 label='Email'
                 value={values.email}
                 onChange={handleChange}
-                helperText={''}
+                helperText={errorsObj.email}
                 name='email'
               />
               <TextField
-                error={isError}
+                error={errorsObj.password ? true : false}
                 id='outlined-error-helper-text'
                 label='Password'
                 value={values.password}
-                helperText={''}
+                helperText={errorsObj.password}
                 onChange={handleChange}
                 name='password'
                 mb={3}
               />
               <LoadingButton
-                loading={true}
+                loading={isLoading}
                 variant='contained'
                 type='submit'
                 endIcon={<SendIcon />}

@@ -1,9 +1,4 @@
-import {
-  ADD_STUDENT_BEGIN,
-  ADD_STUDENT_SUCCESS,
-  ADD_STUDENT_ERROR,
-  CLEAR_ALERT,
-} from './action'
+import { AUTH_BEGIN, AUTH_SUCCESS, AUTH_ERROR, CLEAR_ALERT } from './action'
 
 const reducer = (state, action) => {
   const { type, payload } = action
@@ -18,33 +13,33 @@ const reducer = (state, action) => {
     }
   }
 
-  if (ADD_STUDENT_BEGIN === type) {
-    return {
-      ...state,
-      isLoading: true,
-    }
+  if (AUTH_BEGIN === type) {
+    return { ...state, isLoading: true }
   }
 
-  if (ADD_STUDENT_SUCCESS === type) {
+  if (AUTH_SUCCESS === type) {
     return {
       ...state,
-      student: payload,
       isLoading: false,
       showAlert: true,
-      alert: 'Student registration successfull',
+      alert: payload,
       alertType: 'success',
     }
   }
 
-  if (ADD_STUDENT_ERROR === type) {
+  if (AUTH_ERROR === type) {
+    console.log(payload)
     return {
       ...state,
       isLoading: false,
+      errors: payload.errors,
+      showAlert: true,
+      alert: payload.errorMessage,
+      alertType: 'error',
     }
   }
 
-  //throw error
-  throw new Error(`No such action :${action.type}`)
+  throw new Error(`No such acyion :${action.type}`)
 }
 
 export default reducer

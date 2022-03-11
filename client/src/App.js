@@ -50,7 +50,14 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<ShareLayout />}>
+        <Route
+          path='/'
+          element={
+            <ProtectedRoute>
+              <ShareLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route index element={<Stats />} />
           <Route path='students' element={<Students />} />
           <Route path='students/:id' element={<StudentProfile />} />

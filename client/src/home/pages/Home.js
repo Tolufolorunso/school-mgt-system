@@ -9,14 +9,6 @@ import Button from '@mui/material/Button'
 
 const Home = () => {
   let navigate = useNavigate()
-  const loginHandler = () => {
-    navigate('/users/login')
-  }
-
-  const registerHandler = () => {
-    navigate('/users/register')
-  }
-
   return (
     <main className='home h-screen flex'>
       <AuthNav />
@@ -37,8 +29,21 @@ const Home = () => {
             minima iste. Tempore, repellat.
           </p>
           <div className='home__content--btns flex mt-5'>
-            <Button />
-            <Button />
+            <Button
+              color='inherit'
+              onClick={() => navigate('/users/login')}
+              className='auth_btn'
+            >
+              Login
+            </Button>
+            <Button
+              variant='outlined'
+              color='inherit'
+              onClick={() => navigate('/users/register')}
+              className='auth_btn'
+            >
+              Register
+            </Button>
           </div>
         </div>
       </Center>

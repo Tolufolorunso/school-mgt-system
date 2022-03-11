@@ -1,12 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './auth.css'
 
 import AuthNav from './AuthNav'
-import { useAppContext } from '../context/appContext'
 import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
 import Paper from '@mui/material/Paper'
 import Stack from '@mui/material/Stack'
@@ -16,29 +14,38 @@ import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import LoadingButton from '@mui/lab/LoadingButton'
 import SendIcon from '@mui/icons-material/Send'
+import { useNavigate } from 'react-router-dom'
+import { useAuthContext } from '../context/auth/authContext'
 
 const initialState = {
-  fullname: 'kolawole kola',
-  email: '@yahoo.com',
+  name: 'kolawole kola',
+  email: 'tolu@yahoo.com',
   role: '',
   password: '12345',
   passwordConfirm: '12345',
 }
 
 const Register = () => {
+  let navigate = useNavigate()
+
   const [values, setValues] = useState(initialState)
-  const [isError, setIsError] = useState(false)
-  const { register } = useAppContext()
+  const { register, isLoading, errors, isLoggedIn } = useAuthContext()
+
+  const [errorsObj, setErrors] = useState({})
 
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value })
   }
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault()
-    console.log('27 values', values)
-    register(values)
+    const success = await register(values)
+    if (success) navigate('/users/login')
   }
+
+  useEffect(() => {
+    setErrors({ ...errors })
+  }, [errors])
 
   return (
     <>
@@ -73,26 +80,27 @@ const Register = () => {
                   spacing={{ xs: 1, sm: 2 }}
                 >
                   <TextField
-                    error={isError}
+                    error={errorsObj.name ? true : false}
                     id='outlined-error'
                     label='Fullname'
-                    value={values.fullname}
+                    value={values.name}
                     onChange={handleChange}
-                    helperText=''
-                    name='fullname'
+                    helperText={errorsObj.name}
+                    name='name'
                     fullWidth
                   />
                   <TextField
-                    error={isError}
+                    error={errorsObj.email ? true : false}
                     id='outlined-error-helper-text'
                     label='Email'
                     value={values.email}
-                    helperText=''
+                    helperText={errorsObj.email}
                     onChange={handleChange}
                     name='email'
                     fullWidth
                   />
                 </Stack>
+
                 <FormControl fullWidth>
                   <InputLabel id='role'>Choose Role</InputLabel>
                   <Select
@@ -101,6 +109,7 @@ const Register = () => {
                     value={values.role}
                     label='Choose Role'
                     name='role'
+                    error={errorsObj.role ? true : false}
                     onChange={handleChange}
                   >
                     <MenuItem value='Accountant'>Accountant</MenuItem>
@@ -114,29 +123,28 @@ const Register = () => {
                   spacing={{ xs: 1, sm: 2 }}
                 >
                   <TextField
-                    error={isError}
+                    error={errorsObj.password ? true : false}
                     id='outlined-error'
                     label='Password'
                     value={values.password}
                     onChange={handleChange}
-                    helperText=''
+                    helperText={errorsObj.password}
                     name='password'
                     fullWidth
                   />
                   <TextField
-                    error={isError}
+                    error={errorsObj.passwordConfirm ? true : false}
                     id='outlined-error-helper-text'
                     label='Confirm Password'
                     value={values.passwordConfirm}
-                    helperText=''
+                    helperText={errorsObj.passwordConfirm}
                     onChange={handleChange}
                     name='passwordConfirm'
                     fullWidth
                   />
                 </Stack>
-
                 <LoadingButton
-                  loading={true}
+                  loading={isLoading}
                   variant='contained'
                   type='submit'
                   endIcon={<SendIcon />}

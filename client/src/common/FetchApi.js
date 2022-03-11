@@ -2,19 +2,19 @@
 import axios from 'axios'
 
 const authFetch = axios.create({
-  baseURL: 'http://localhost:8000/api/v1',
+  baseURL: 'http://localhost:8000',
 })
 // request
 
-authFetch.interceptors.request.use(
-  (config) => {
-    config.headers.common['Authorization'] = `Bearer ${state.token}`
-    return config
-  },
-  (error) => {
-    return Promise.reject(error)
-  }
-)
+// authFetch.interceptors.request.use(
+//   (config) => {
+//     config.headers.common['Authorization'] = `Bearer ${state.token}`
+//     return config
+//   },
+//   (error) => {
+//     return Promise.reject(error)
+//   }
+// )
 // response
 
 authFetch.interceptors.response.use(
@@ -29,3 +29,5 @@ authFetch.interceptors.response.use(
     return Promise.reject(error)
   }
 )
+
+export default authFetch
